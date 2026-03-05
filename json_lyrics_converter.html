@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON 가사 변환기</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .header-title-group {
+            flex: 1;
+        }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .header-subtitle {
+            font-size: 0.85rem;
+            color: #bdc3c7;
+            line-height: 1.6;
+        }
+
+        .button-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            padding-left: 15px;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 12px 0;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .copy-btn:active {
+            background-color: #1c598a;
+        }
+
+        .container {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 15px;
+            font-size: 14px;
+            font-family: 'Consolas', monospace;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            resize: none;
+            outline: none;
+            background-color: #fff;
+        }
+
+        textarea:focus {
+            border-color: #3498db;
+        }
+
+        #output {
+            background-color: #ecf0f1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-title-group">
+            <div class="header-title">JSON 가사 변환기</div>
+            <div class="header-subtitle">
+                👉 첫 가사가 2초 이상 걸린다면 '[00:00.000]♪' 추가<br>
+                👉 시간은 있는데 가사가 빈 줄이라면 음표 특수문자(♪) 추가
+            </div>
+        </div>
+        <div class="button-wrapper">
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">결과 복사하기</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <textarea id="input" placeholder="여기에 JSON 데이터를 붙여넣으세요..."></textarea>
+        <textarea id="output" placeholder="변환된 결과가 여기에 표시됩니다..." readonly></textarea>
+    </div>
+
+    <script>
+        const inputArea = document.getElementById('input');
+        const outputArea = document.getElementById('output');
+        const copyBtn = document.getElementById('copyBtn');
+
+        function formatTime(ms) {
+            const totalMs = parseInt(ms, 10);
+            if (isNaN(totalMs)) return "00:00.000";
+
+            const minutes = Math.floor(totalMs / 60000);
+            const seconds = Math.floor((totalMs % 60000) / 1000);
+            const milliseconds = totalMs % 1000;
+
+            const mm = String(minutes).padStart(2, '0');
+            const ss = String(seconds).padStart(2, '0');
+            const mmm = String(milliseconds).padStart(3, '0');
+
+            return `${mm}:${ss}.${mmm}`;
+        }
+
+        inputArea.addEventListener('keyup', function() {
+            processJson();
+        });
+
+        function processJson() {
+            const rawValue = inputArea.value.trim();
+            if (!rawValue) {
+                outputArea.value = "";
+                return;
+            }
+
+            try {
+                const data = JSON.parse(rawValue);
+                const lines = data.lyrics?.lines;
+
+                if (Array.isArray(lines) && lines.length > 0) {
+                    let resultLines = [];
+                    const firstStartTime = parseInt(lines[0].startTimeMs, 10);
+
+                    if (firstStartTime >= 2000) {
+                        resultLines.push("[00:00.000]♪");
+                    }
+
+                    lines.forEach(line => {
+                        const time = formatTime(line.startTimeMs);
+                        const lyric = (line.words && line.words.trim() !== "") ? line.words : "♪";
+                        resultLines.push(`[${time}]${lyric}`);
+                    });
+
+                    outputArea.value = resultLines.join('\n');
+                } else {
+                    outputArea.value = "데이터를 찾을 수 없습니다.";
+                }
+            } catch (error) {
+                outputArea.value = "올바른 JSON 형식이 아닙니다.";
+            }
+        }
+
+        async function copyToClipboard() {
+            const text = outputArea.value.trim();
+            if (!text) {
+                alert("복사할 내용이 없습니다.");
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(text);
+
+                copyBtn.textContent = "복사 완료!";
+                copyBtn.style.backgroundColor = "#27ae60";
+
+                setTimeout(() => {
+                    copyBtn.textContent = "결과 복사하기";
+                    copyBtn.style.backgroundColor = "#3498db";
+                }, 1500);
+            } catch (err) {
+                alert("복사에 실패했습니다.");
+            }
+        }
+    </script>
+</body>
+</html>
