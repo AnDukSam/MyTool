@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>각종 계산기</title>
+    <style>
+        :root {
+            --primary-color: #1F8EEB;
+            --bg-color: #f4f7f9;
+            --card-bg: #ffffff;
+            --border-color: #d1d9e0;
+            --text-color: #333333;
+            --accent-color: #eef2f6;
+            --danger-color: #FF5252;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            text-align: center; /* 내부 요소 가운데 정렬 */
+        }
+
+        .container h2 {
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            display: inline-block;
+        }
+
+        .formula {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 8px;
+            border-radius: 6px;
+            display: inline-block; /* 텍스트 길이에 맞춤 */
+            width: 90%;
+        }
+
+        table {
+            width: auto; /* 내용에 맞게 조절 */
+            margin: 0 auto; /* 테이블 자체를 가운데로 */
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 10px 5px;
+            text-align: left; /* 라벨과 입력창은 왼쪽 정렬 유지 */
+        }
+
+        .td-label {
+            width: 120px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .txt-input {
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 140px;
+            height: 44px;
+            text-align: right;
+            background-color: var(--accent-color);
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .txt-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        .txt-result {
+            background-color: #fff9db;
+            font-weight: bold;
+            border-color: #fab005;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center; /* 버튼 가운데 정렬 */
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 12px 40px;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            background-color: var(--danger-color); /* 초기화 버튼 전용 색상 */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .minus-plus-btn {
+            width: 44px;
+            height: 44px;
+            font-size: 18px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .minus-plus-btn:hover {
+            background-color: #f1f3f5;
+        }
+
+        .unit {
+            margin-left: 8px;
+            font-size: 14px;
+            color: #555;
+            display: inline-block;
+            width: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>매출 총이익률</h2>
+        <div class="formula">(판매가 - 원가) ÷ 판매가</div>
+        <table>
+            <tr>
+                <td class="td-label">매입가(원가)</td>
+                <td>
+                    <input class="txt-input" id="txtProductCost" type="number" placeholder="0">
+                    <span class="unit">원</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-label">판매가</td>
+                <td>
+                    <input class="txt-input" id="txtSellPrice" type="number" placeholder="0" onkeyup="calculateProfitRate()">
+                    <span class="unit">원</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-label">매출 총이익률</td>
+                <td>
+                    <input class="txt-input txt-result" id="txtProfitRate" type="number" readonly>
+                    <span class="unit">%</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-label">순이익</td>
+                <td>
+                    <input class="txt-input txt-result" id="txtNetProfit" type="number" readonly>
+                    <span class="unit">원</span>
+                </td>
+            </tr>
+        </table>
+        <div class="btn-group">
+            <button class="action-btn" onclick="resetProfitRate()">초기화</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>판매가 계산</h2>
+        <div style="height: 20px;"></div> <table>
+            <tr>
+                <td class="td-label">매입가(원가)</td>
+                <td>
+                    <input class="txt-input" id="txtProductCost2" type="number" placeholder="0" onkeyup="calculateProductCost()">
+                    <span class="unit">원</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-label">목표 이익률</td>
+                <td>
+                    <input class="txt-input txt-result" id="txtProfitRate2" type="number" value="30" readonly>
+                    <span class="unit">%</span>
+                    <button class="minus-plus-btn" onclick="decreaseProfitRate2()">-</button>
+                    <button class="minus-plus-btn" onclick="increaseProfitRate2()">+</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-label">권장 판매가</td>
+                <td>
+                    <input class="txt-input txt-result" id="txtSellPrice2" type="number" readonly>
+                    <span class="unit">원</span>
+                </td>
+            </tr>
+        </table>
+        <div class="btn-group">
+            <button class="action-btn" onclick="resetProductCost()">초기화</button>
+        </div>
+    </div>
+
+    <script>
+        function calculateProfitRate() {
+            var a = document.getElementById("txtProductCost");
+            var b = document.getElementById("txtSellPrice");
+            var c = document.getElementById("txtProfitRate");
+            var d = document.getElementById("txtNetProfit");
+
+            if (isNaN(parseFloat(a.value)) || isNaN(parseFloat(b.value)) || parseFloat(b.value) === 0) {
+                c.value = ""; d.value = ""; return;
+            }
+
+            var k = (parseFloat(b.value) - parseFloat(a.value)) / parseFloat(b.value) * 100;
+            c.value = k.toFixed(2);
+            d.value = Math.floor(parseFloat(b.value) - parseFloat(a.value));
+        }
+
+        function resetProfitRate() {
+            document.getElementById("txtProductCost").value = "";
+            document.getElementById("txtSellPrice").value = "";
+            document.getElementById("txtProfitRate").value = "";
+            document.getElementById("txtNetProfit").value = "";
+            document.getElementById("txtProductCost").focus();
+        }
+
+        function calculateProductCost() {
+            var a = document.getElementById("txtProfitRate2");
+            var b = document.getElementById("txtProductCost2");
+            var c = document.getElementById("txtSellPrice2");
+
+            if (isNaN(parseFloat(a.value)) || isNaN(parseFloat(b.value)) || parseFloat(a.value) >= 100) {
+                c.value = ""; return;
+            }
+            c.value = Math.floor(parseFloat(b.value) / (1 - (parseFloat(a.value) / 100)));
+        }
+
+        function increaseProfitRate2() {
+            var a = document.getElementById("txtProfitRate2");
+            a.value = parseFloat(a.value) + 1;
+            calculateProductCost();
+        }
+
+        function decreaseProfitRate2() {
+            var a = document.getElementById("txtProfitRate2");
+            if (parseFloat(a.value) > 0) {
+                a.value = parseFloat(a.value) - 1;
+                calculateProductCost();
+            }
+        }
+
+        function resetProductCost() {
+            document.getElementById("txtProductCost2").value = "";
+            document.getElementById("txtProfitRate2").value = 30;
+            document.getElementById("txtSellPrice2").value = "";
+            document.getElementById("txtProductCost2").focus();
+        }
+    </script>
+</body>
+</html>
