@@ -85,7 +85,6 @@
             white-space: nowrap;
         }
 
-        /* 기본 입력창 스타일 */
         .txt-input {
             padding: 10px;
             font-size: 16px;
@@ -99,7 +98,6 @@
             vertical-align: middle;
         }
 
-        /* 이익률 전용 (짧은 칸) */
         .txt-short {
             width: 70px !important;
         }
@@ -116,7 +114,6 @@
             border-color: #fab005;
         }
 
-        /* 증감 버튼 스타일 */
         .stepper {
             display: inline-flex;
             align-items: center;
@@ -273,22 +270,32 @@
             var b = document.getElementById("txtProductCost2");
             var c = document.getElementById("txtSellPrice2");
 
-            if (!a.value || !b.value || parseFloat(a.value) >= 100) {
+            var rate = parseFloat(a.value);
+            var cost = parseFloat(b.value);
+
+            // 이익률이 100% 이상이 되는 것을 방지
+            if (isNaN(rate) || isNaN(cost) || rate >= 100) {
                 c.value = ""; return;
             }
-            c.value = Math.floor(parseFloat(b.value) / (1 - (parseFloat(a.value) / 100)));
+            c.value = Math.floor(cost / (1 - (rate / 100)));
         }
 
         function increaseProfitRate2() {
             var a = document.getElementById("txtProfitRate2");
-            a.value = parseFloat(a.value) + 1;
-            calculateProductCost();
+            var currentRate = parseFloat(a.value);
+
+            // 최대 99%까지만 증가하도록 제한
+            if (currentRate < 99) {
+                a.value = currentRate + 1;
+                calculateProductCost();
+            }
         }
 
         function decreaseProfitRate2() {
             var a = document.getElementById("txtProfitRate2");
-            if (parseFloat(a.value) > 0) {
-                a.value = parseFloat(a.value) - 1;
+            var currentRate = parseFloat(a.value);
+            if (currentRate > 0) {
+                a.value = currentRate - 1;
                 calculateProductCost();
             }
         }
