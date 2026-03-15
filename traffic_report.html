@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교통 위반 신고</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --success-color: #2ecc71;
+            --secondary-color: #95a5a6;
+            --error-color: #e74c3c;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 550px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        select {
+            cursor: pointer;
+            background-color: #fff;
+            margin-top: 5px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .date-input-wrapper {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .date-input-wrapper input {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .date-btn-group {
+            display: flex;
+            gap: 4px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.1s;
+            color: white;
+        }
+
+        button:active { transform: scale(0.98); }
+
+        .btn-gray { background-color: var(--secondary-color); }
+        .btn-green { background-color: var(--success-color); }
+        .btn-blue { background-color: var(--primary-color); }
+
+        .btn-main-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-main {
+            flex: 1;
+            padding: 14px;
+            font-size: 1rem;
+        }
+
+        #lblMessage {
+            display: block;
+            margin-top: 15px;
+            min-height: 20px;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .msg-error { color: var(--error-color); background: #fdeded; }
+        .msg-success { color: #27ae60; background: #eafaf1; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🚦 교통 위반 신고</h2>
+
+    <div class="form-group">
+        <label for="txtNumber">위반 대상 차량 번호</label>
+        <input type="text" id="txtNumber" placeholder="예: 12가3456">
+    </div>
+
+    <div class="form-group">
+        <label for="txtDate">위반 일시</label>
+        <div class="date-input-wrapper">
+            <input type="datetime-local" id="txtDate">
+            <div class="date-btn-group">
+                <button type="button" class="btn-gray" onclick="adjustDate(-1)">-1일</button>
+                <button type="button" class="btn-green" onclick="setToday()">오늘</button>
+                <button type="button" class="btn-gray" onclick="adjustDate(1)">+1일</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="txtPlace">위반 장소</label>
+        <input type="text" id="txtPlace" placeholder="위반 장소를 입력하세요">
+        <select id="selQuickPlace" onchange="setQuickPlace(this.value)">
+            <option value="">-- 자주 위반하는 장소 선택 --</option>
+            <option value="대구광역시 수성구 범물동 1235-9">오늘 이닭 앞 사거리</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="txtContent">위반 내용</label>
+        <textarea id="txtContent" placeholder="예: 신호위반, 중앙선 침범 등"></textarea>
+    </div>
+
+    <div class="btn-main-group">
+        <button class="btn-blue btn-main" onclick="copyTitle()">제목 복사</button>
+        <button class="btn-blue btn-main" onclick="copyContent()">내용 복사</button>
+    </div>
+
+    <div id="lblMessage">정보를 입력하고 버튼을 눌러주세요.</div>
+</div>
+
+<script>
+    const messageEl = document.getElementById("lblMessage");
+
+    function showMessage(msg, isSuccess = false) {
+        messageEl.innerHTML = msg;
+        messageEl.className = isSuccess ? 'msg-success' : 'msg-error';
+    }
+
+    function setQuickPlace(address) {
+        if (address !== "") {
+            document.getElementById("txtPlace").value = address;
+            showMessage("장소가 자동으로 입력되었습니다.", true);
+        }
+    }
+
+    function formatDateTime(date) {
+        const z = (n) => (n < 10 ? '0' : '') + n;
+        return date.getFullYear() + '-' + z(date.getMonth() + 1) + '-' + z(date.getDate()) +
+               'T' + z(date.getHours()) + ':' + z(date.getMinutes());
+    }
+
+    function setToday() {
+        const now = new Date();
+        document.getElementById("txtDate").value = formatDateTime(now);
+        showMessage("현재 시간으로 설정되었습니다.", true);
+    }
+
+    function adjustDate(days) {
+        const dateInput = document.getElementById("txtDate");
+        let currentVal = dateInput.value;
+        let targetDate = currentVal ? new Date(currentVal) : new Date();
+        targetDate.setDate(targetDate.getDate() + days);
+        dateInput.value = formatDateTime(targetDate);
+        const label = days > 0 ? '하루 뒤' : '하루 전';
+        showMessage(`날짜가 ${label}로 변경되었습니다.`, true);
+    }
+
+    function copyTitle() {
+        const number = document.getElementById("txtNumber").value.trim();
+        if (!number) {
+            showMessage("차량 번호를 입력해주세요.");
+            return;
+        }
+        window.navigator.clipboard.writeText(number + " 교통위반")
+            .then(() => showMessage("제목이 클립보드에 복사되었습니다.", true));
+    }
+
+    function copyContent() {
+        const number = document.getElementById("txtNumber").value.trim();
+        const dateVal = document.getElementById("txtDate").value;
+        const place = document.getElementById("txtPlace").value.trim();
+        const content = document.getElementById("txtContent").value.trim();
+
+        if (!dateVal) {
+            showMessage("위반 일시를 입력해주세요.");
+            return;
+        }
+
+        const dateStr = convertToKoreanDate(dateVal);
+        const result = `위반 대상 차량 번호: ${number}\n\n위반 일시: ${dateStr}\n\n위반 장소: ${place}\n\n위반 내용: ${content}`;
+
+        window.navigator.clipboard.writeText(result)
+            .then(() => showMessage("신고 내용이 클립보드에 복사되었습니다.", true));
+    }
+
+    function convertToKoreanDate(val) {
+        const d = new Date(val);
+        const y = d.getFullYear();
+        const m = d.getMonth() + 1;
+        const day = d.getDate();
+        const h = d.getHours();
+        const min = d.getMinutes();
+        const ampm = h < 12 ? "오전" : "오후";
+        const h12 = h % 12 === 0 ? 12 : h % 12;
+        return `${y}년 ${m}월 ${day}일 ${ampm} ${h12}시 ${min}분`;
+    }
+</script>
+
+</body>
+</html>
