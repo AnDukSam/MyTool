@@ -136,13 +136,35 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 flex h-screen overflow-hidden">
+<body class="bg-gray-50 text-gray-800 flex flex-col md:flex-row h-screen overflow-hidden">
+
+    <!-- 모바일 상단 바 (모바일에서만 표시) -->
+    <header class="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between border-b border-slate-800 shrink-0 z-20">
+        <div class="flex items-center gap-3">
+            <button onclick="toggleMobileSidebar()" class="text-xl text-slate-300 hover:text-white focus:outline-none cursor-pointer p-1">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <span class="font-bold text-lg flex items-center gap-2">
+                <i class="fa-solid fa-toolbox text-blue-400"></i>
+                <span>My Tool</span>
+            </span>
+        </div>
+    </header>
+
+    <!-- 모바일 백드롭 오버레이 -->
+    <div id="mobile-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden"></div>
 
     <!-- 사이드바 메뉴 -->
-    <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-lg">
-        <div class="p-6 text-xl font-bold border-b border-slate-800 flex items-center gap-3">
-            <i class="fa-solid fa-toolbox text-blue-400"></i>
-            <span>My Tool</span>
+    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-64 bg-slate-900 text-white flex flex-col shadow-lg z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shrink-0">
+        <div class="p-6 text-xl font-bold border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-toolbox text-blue-400"></i>
+                <span>My Tool</span>
+            </div>
+            <!-- 모바일에서 닫기 버튼 -->
+            <button onclick="toggleMobileSidebar()" class="md:hidden text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
         <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
             <button onclick="switchTab('date-generator')" id="btn-date-generator" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition bg-blue-600 text-white font-medium">
@@ -170,7 +192,7 @@
 
     <!-- 메인 콘텐츠 영역 -->
     <main class="flex-1 flex flex-col h-full overflow-hidden">
-        <div class="flex-1 p-8 overflow-y-auto bg-gray-50 flex flex-col">
+        <div class="flex-1 p-4 md:p-8 overflow-y-auto bg-gray-50 flex flex-col">
 
             <!-- 1. 날짜 생성 툴 -->
             <section id="date-generator" class="tool-content max-w-2xl bg-white p-6 rounded-xl shadow-xs border border-gray-200">
@@ -367,6 +389,15 @@
     </main>
 
     <script>
+        // 모바일 사이드바 토글 함수
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('mobile-backdrop');
+
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
         // 로컬스토리지 값 저장 함수
         function saveFieldValue(id) {
             const el = document.getElementById(id);
@@ -435,6 +466,11 @@
                 btn.className = "tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition text-slate-300 hover:bg-slate-800 hover:text-white";
             });
             document.getElementById('btn-' + toolId).className = "tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition bg-blue-600 text-white font-medium";
+
+            // 모바일 환경에서 메뉴를 클릭하면 자동으로 사이드바 닫기
+            if (window.innerWidth < 768) {
+                toggleMobileSidebar();
+            }
         }
 
         // [날짜 생성] 피드백 메시지 공통 함수
@@ -795,7 +831,7 @@
             saveFieldValue('txtProductCost2');
             saveFieldValue('txtProfitRate2');
             saveFieldValue('txtSellPrice2');
-            document.getElementById("txtProductCost2").focus();
+            document.getElementById("txtProductCost22").focus();
             showCalcMessage("판매가 계산기가 초기화되었습니다.", true);
         }
     </script>
