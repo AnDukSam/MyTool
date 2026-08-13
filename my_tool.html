@@ -210,15 +210,15 @@
                 <div class="flex gap-4 mb-6">
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-600 mb-1">년도</label>
-                        <select id="select-year" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="saveFieldValue('select-year')"></select>
+                        <select id="select-year" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></select>
                     </div>
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-600 mb-1">월</label>
-                        <select id="select-month" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="saveFieldValue('select-month')"></select>
+                        <select id="select-month" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></select>
                     </div>
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-600 mb-1">구분자</label>
-                        <select id="select-separator" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="saveFieldValue('select-separator')">
+                        <select id="select-separator" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                             <option value="-">- (하이픈)</option>
                             <option value="/">/ (슬래시)</option>
                             <option value=".">. (마침표)</option>
@@ -230,7 +230,7 @@
                 <button onclick="generateDateList()" class="w-full px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">날짜 리스트 생성</button>
                 <div class="mt-6">
                     <label class="block text-sm font-medium text-gray-600 mb-1">결과 (시트 붙여넣기용)</label>
-                    <textarea id="date-list-result" rows="10" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700 font-mono text-sm resize-none outline-none" readonly oninput="saveFieldValue('date-list-result')"></textarea>
+                    <textarea id="date-list-result" rows="10" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700 font-mono text-sm resize-none outline-none" readonly></textarea>
 
                     <div id="date-copy-status" class="mt-4 p-3 rounded-lg text-sm text-center min-h-[40px] transition-all flex items-center justify-center">정보를 입력하고 버튼을 눌러주세요.</div>
 
@@ -278,13 +278,13 @@
             <section id="traffic-report" class="tool-content max-w-2xl bg-white p-6 rounded-xl shadow-xs border border-gray-200 hidden">
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="txtNumber">위반 대상 차량 번호</label>
-                    <input type="text" id="txtNumber" placeholder="예: 12가3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" oninput="saveFieldValue('txtNumber')">
+                    <input type="text" id="txtNumber" placeholder="예: 12가3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="txtDate">위반 일시</label>
                     <div class="flex gap-2 flex-wrap">
-                        <input type="datetime-local" id="txtDate" class="flex-1 min-w-[180px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" oninput="saveFieldValue('txtDate')">
+                        <input type="datetime-local" id="txtDate" class="flex-1 min-w-[180px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                         <div class="flex gap-1">
                             <button type="button" class="px-3 py-2 bg-gray-500 text-white text-sm rounded-lg hover:bg-gray-600" onclick="adjustDate(-1)">-1일</button>
                             <button type="button" class="px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700" onclick="setToday()">오늘</button>
@@ -295,7 +295,7 @@
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="txtPlace">위반 장소</label>
-                    <input type="text" id="txtPlace" placeholder="위반 장소를 입력하세요" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mb-2" oninput="saveFieldValue('txtPlace')">
+                    <input type="text" id="txtPlace" placeholder="위반 장소를 입력하세요" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mb-2">
                     <select id="selQuickPlace" onchange="setQuickPlace(this.value)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
                         <option value="">-- 자주 위반하는 장소 선택 --</option>
                         <option value="대구광역시 수성구 범물동 1235-9">오늘 이닭 앞 사거리</option>
@@ -304,7 +304,7 @@
 
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="txtContent">위반 내용</label>
-                    <textarea id="txtContent" placeholder="예: 신호위반, 중앙선 침범 등" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-24 resize-vertical" oninput="saveFieldValue('txtContent')"></textarea>
+                    <textarea id="txtContent" placeholder="예: 신호위반, 중앙선 침범 등" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-24 resize-vertical"></textarea>
                 </div>
 
                 <div class="flex gap-3">
@@ -335,9 +335,9 @@
                 </div>
 
                 <div id="lyrics-container" class="grid gap-4 flex-1 pb-2 mode-ko" style="min-height: 400px;">
-                    <textarea id="json-input" placeholder="여기에 JSON 데이터를 붙여넣으세요..." class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none" oninput="saveFieldValue('json-input')"></textarea>
-                    <textarea id="extra-input" placeholder="" class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none hidden" oninput="saveFieldValue('extra-input')"></textarea>
-                    <textarea id="trans-input" placeholder="" class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none hidden" oninput="saveFieldValue('trans-input')"></textarea>
+                    <textarea id="json-input" placeholder="여기에 JSON 데이터를 붙여넣으세요..." class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none"></textarea>
+                    <textarea id="extra-input" placeholder="" class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none hidden"></textarea>
+                    <textarea id="trans-input" placeholder="" class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none hidden"></textarea>
                     <textarea id="json-output" placeholder="변환된 결과가 여기에 표시됩니다..." class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl bg-gray-100 resize-none outline-none" readonly></textarea>
                 </div>
             </section>
@@ -352,28 +352,28 @@
                         <tr>
                             <td class="td-label">매입가(원가)</td>
                             <td class="td-content">
-                                <input class="calc-txt-input" id="txtProductCost" type="number" placeholder="0" oninput="saveFieldValue('txtProductCost')">
+                                <input class="calc-txt-input" id="txtProductCost" type="number" placeholder="0">
                                 <span class="calc-unit">원</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="td-label">판매가</td>
                             <td class="td-content">
-                                <input class="calc-txt-input" id="txtSellPrice" type="number" placeholder="0" oninput="saveFieldValue('txtSellPrice')" onkeyup="calculateProfitRate()">
+                                <input class="calc-txt-input" id="txtSellPrice" type="number" placeholder="0" onkeyup="calculateProfitRate()">
                                 <span class="calc-unit">원</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="td-label">매출 총이익률</td>
                             <td class="td-content">
-                                <input class="calc-txt-input calc-txt-result calc-txt-short" id="txtProfitRate" type="number" readonly oninput="saveFieldValue('txtProfitRate')">
+                                <input class="calc-txt-input calc-txt-result calc-txt-short" id="txtProfitRate" type="number" readonly>
                                 <span class="calc-unit">%</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="td-label">순이익</td>
                             <td class="td-content">
-                                <input class="calc-txt-input calc-txt-result" id="txtNetProfit" type="number" readonly oninput="saveFieldValue('txtNetProfit')">
+                                <input class="calc-txt-input calc-txt-result" id="txtNetProfit" type="number" readonly>
                                 <span class="calc-unit">원</span>
                             </td>
                         </tr>
@@ -391,14 +391,14 @@
                         <tr>
                             <td class="td-label">매입가(원가)</td>
                             <td class="td-content">
-                                <input class="calc-txt-input" id="txtProductCost2" type="number" placeholder="0" oninput="saveFieldValue('txtProductCost2')" onkeyup="calculateProductCost()">
+                                <input class="calc-txt-input" id="txtProductCost2" type="number" placeholder="0" onkeyup="calculateProductCost()">
                                 <span class="calc-unit">원</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="td-label">목표 이익률</td>
                             <td class="td-content">
-                                <input class="calc-txt-input calc-txt-result calc-txt-short" id="txtProfitRate2" type="number" value="30" readonly oninput="saveFieldValue('txtProfitRate2')">
+                                <input class="calc-txt-input calc-txt-result calc-txt-short" id="txtProfitRate2" type="number" value="30" readonly>
                                 <span class="calc-unit">%</span>
                                 <div class="stepper">
                                     <button class="minus-plus-btn" onclick="decreaseProfitRate2()">-</button>
@@ -409,7 +409,7 @@
                         <tr>
                             <td class="td-label">권장 판매가</td>
                             <td class="td-content">
-                                <input class="calc-txt-input calc-txt-result" id="txtSellPrice2" type="number" readonly oninput="saveFieldValue('txtSellPrice2')">
+                                <input class="calc-txt-input calc-txt-result" id="txtSellPrice2" type="number" readonly>
                                 <span class="calc-unit">원</span>
                             </td>
                         </tr>
@@ -433,15 +433,7 @@
             backdrop.classList.toggle('hidden');
         }
 
-        // 로컬스토리지 값 저장 함수
-        function saveFieldValue(id) {
-            const el = document.getElementById(id);
-            if(el) {
-                localStorage.setItem('tool_' + id, el.value);
-            }
-        }
-
-        // 초기화 및 로컬스토리지 값 불러오기
+        // 초기화 및 기본 데이터 세팅
         window.onload = function() {
             // 날짜 생성 초기화
             const yearSelect = document.getElementById('select-year');
@@ -460,27 +452,7 @@
                 monthSelect.appendChild(opt);
             }
 
-            // 모든 입력 필드 ID 리스트 (텍스트 버튼 및 순서 붙이기 제외)
-            const fieldIds = [
-                'select-year', 'select-month', 'select-separator', 'date-list-result',
-                'txtNumber', 'txtDate', 'txtPlace', 'txtContent',
-                'json-input', 'extra-input', 'trans-input', 'json-output',
-                'txtProductCost', 'txtSellPrice', 'txtProfitRate', 'txtNetProfit',
-                'txtProductCost2', 'txtProfitRate2', 'txtSellPrice2'
-            ];
-
-            // 저장된 값 복원
-            fieldIds.forEach(id => {
-                const savedVal = localStorage.getItem('tool_' + id);
-                if(savedVal !== null) {
-                    const el = document.getElementById(id);
-                    if(el) {
-                        el.value = savedVal;
-                    }
-                }
-            });
-
-            // 복원된 텍스트 기반으로 가사 변환 미리 실행
+            // 가사 변환 모드 초기 실행
             toggleLyricsMode();
         };
 
@@ -526,7 +498,6 @@
             for (let d = 1; d <= lastDay; d++) result.push(`${year}${separator}${month}${separator}${d}`);
             const resultStr = result.join('\n');
             document.getElementById('date-list-result').value = resultStr;
-            saveFieldValue('date-list-result');
             showDateMessage("날짜 리스트가 생성되었습니다.", true);
         }
 
@@ -665,7 +636,6 @@
             if (address !== "") {
                 const placeEl = document.getElementById("txtPlace");
                 placeEl.value = address;
-                saveFieldValue('txtPlace');
                 showTrafficMessage("장소가 자동으로 입력되었습니다.", true);
             }
         }
@@ -680,7 +650,6 @@
             const now = new Date();
             const dateEl = document.getElementById("txtDate");
             dateEl.value = formatDateTime(now);
-            saveFieldValue('txtDate');
             showTrafficMessage("현재 시간으로 설정되었습니다.", true);
         }
 
@@ -690,7 +659,6 @@
             let targetDate = currentVal ? new Date(currentVal) : new Date();
             targetDate.setDate(targetDate.getDate() + days);
             dateInput.value = formatDateTime(targetDate);
-            saveFieldValue('txtDate');
             const label = days > 0 ? '하루 뒤' : '하루 전';
             showTrafficMessage(`날짜가 ${label}로 변경되었습니다.`, true);
         }
@@ -785,7 +753,6 @@
 
             if (!rawValue) {
                 jsonOutput.value = "";
-                saveFieldValue('json-output');
                 return;
             }
 
@@ -824,10 +791,8 @@
                     }
                 });
                 jsonOutput.value = resultLines.join('\n');
-                saveFieldValue('json-output');
             } catch (e) {
                 jsonOutput.value = "올바른 JSON 형식이 아닙니다.";
-                saveFieldValue('json-output');
             }
         }
 
@@ -854,16 +819,12 @@
 
             if (!a.value || !b.value || parseFloat(b.value) === 0) {
                 c.value = ""; d.value = "";
-                saveFieldValue('txtProfitRate');
-                saveFieldValue('txtNetProfit');
                 return;
             }
 
             var k = (parseFloat(b.value) - parseFloat(a.value)) / parseFloat(b.value) * 100;
             c.value = k.toFixed(2);
             d.value = Math.floor(parseFloat(b.value) - parseFloat(a.value));
-            saveFieldValue('txtProfitRate');
-            saveFieldValue('txtNetProfit');
         }
 
         function resetProfitRate() {
@@ -871,10 +832,6 @@
             document.getElementById("txtSellPrice").value = "";
             document.getElementById("txtProfitRate").value = "";
             document.getElementById("txtNetProfit").value = "";
-            saveFieldValue('txtProductCost');
-            saveFieldValue('txtSellPrice');
-            saveFieldValue('txtProfitRate');
-            saveFieldValue('txtNetProfit');
             document.getElementById("txtProductCost").focus();
         }
 
@@ -888,11 +845,9 @@
 
             if (isNaN(rate) || isNaN(cost) || rate >= 100) {
                 c.value = "";
-                saveFieldValue('txtSellPrice2');
                 return;
             }
             c.value = Math.floor(cost / (1 - (rate / 100)));
-            saveFieldValue('txtSellPrice2');
         }
 
         function increaseProfitRate2() {
@@ -901,7 +856,6 @@
 
             if (currentRate < 99) {
                 a.value = currentRate + 1;
-                saveFieldValue('txtProfitRate2');
                 calculateProductCost();
             }
         }
@@ -911,7 +865,6 @@
             var currentRate = parseFloat(a.value);
             if (currentRate > 0) {
                 a.value = currentRate - 1;
-                saveFieldValue('txtProfitRate2');
                 calculateProductCost();
             }
         }
@@ -920,9 +873,6 @@
             document.getElementById("txtProductCost2").value = "";
             document.getElementById("txtProfitRate2").value = 30;
             document.getElementById("txtSellPrice2").value = "";
-            saveFieldValue('txtProductCost2');
-            saveFieldValue('txtProfitRate2');
-            saveFieldValue('txtSellPrice2');
             document.getElementById("txtProductCost2").focus();
         }
     </script>
