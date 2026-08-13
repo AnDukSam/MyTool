@@ -18,6 +18,14 @@
             color: #9ca3af;
         }
 
+        /* 공통 파란색 버튼 클래스 통일 (#155DFC) */
+        .btn-primary {
+            background-color: #155DFC !important;
+        }
+        .btn-primary:hover {
+            background-color: #1248cc !important;
+        }
+
         /* 계산기 전용 스타일 병합 (중앙 정렬 마진 제거 및 좌측 정렬) */
         .calc-wrapper {
             background-color: #ffffff;
@@ -37,8 +45,8 @@
             margin-top: 0;
             margin-bottom: 15px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #1F8EEB;
-            color: #1F8EEB;
+            border-bottom: 2px solid #155DFC;
+            color: #155DFC;
             display: inline-block;
         }
 
@@ -98,7 +106,7 @@
 
         .calc-txt-input:focus {
             outline: none;
-            border-color: #1F8EEB;
+            border-color: #155DFC;
             background-color: #fff;
         }
 
@@ -174,7 +182,7 @@
             </button>
         </div>
         <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-            <button onclick="switchTab('date-generator')" id="btn-date-generator" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition bg-blue-600 text-white font-medium">
+            <button onclick="switchTab('date-generator')" id="btn-date-generator" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition btn-primary text-white font-medium">
                 <i class="fa-solid fa-calendar-days w-5"></i>
                 <span>날짜 생성</span>
             </button>
@@ -210,15 +218,15 @@
                 <div class="flex gap-4 mb-6">
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-600 mb-1">년도</label>
-                        <select id="select-year" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></select>
+                        <select id="select-year" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC]"></select>
                     </div>
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-600 mb-1">월</label>
-                        <select id="select-month" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></select>
+                        <select id="select-month" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC]"></select>
                     </div>
                     <div class="flex-1">
                         <label class="block text-sm font-medium text-gray-600 mb-1">구분자</label>
-                        <select id="select-separator" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <select id="select-separator" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC]">
                             <option value="-">- (하이픈)</option>
                             <option value="/">/ (슬래시)</option>
                             <option value=".">. (마침표)</option>
@@ -227,7 +235,7 @@
                         </select>
                     </div>
                 </div>
-                <button onclick="generateDateList()" class="w-full px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">날짜 리스트 생성</button>
+                <button onclick="generateDateList()" class="w-full px-5 py-2 btn-primary text-white font-medium rounded-lg transition">날짜 리스트 생성</button>
                 <div class="mt-6">
                     <label class="block text-sm font-medium text-gray-600 mb-1">결과 (시트 붙여넣기용)</label>
                     <textarea id="date-list-result" rows="10" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700 font-mono text-sm resize-none outline-none" readonly></textarea>
@@ -240,8 +248,8 @@
 
             <!-- 2. 텍스트 버튼 생성 툴 -->
             <section id="text-button-gen" class="tool-content max-w-2xl bg-white p-6 rounded-xl shadow-xs border border-gray-200 hidden">
-                <textarea id="text-input-area" rows="6" placeholder="버튼으로 만들 텍스트를 줄바꿈으로 입력하세요.&#10;예:&#10;떡볶이&#10;돈가스" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mb-4 resize-vertical"></textarea>
-                <button onclick="createButtons()" class="w-full px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition mb-4">버튼 생성</button>
+                <textarea id="text-input-area" rows="6" placeholder="버튼으로 만들 텍스트를 줄바꿈으로 입력하세요.&#10;예:&#10;떡볶이&#10;돈가스" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC] mb-4 resize-vertical"></textarea>
+                <button onclick="createButtons()" class="w-full px-5 py-2 btn-primary text-white font-medium rounded-lg transition mb-4">버튼 생성</button>
 
                 <div id="copy-status" class="mt-2 mb-4 p-3 rounded-lg text-sm text-center min-h-[40px] transition-all flex items-center justify-center">정보를 입력하고 버튼을 눌러주세요.</div>
 
@@ -252,7 +260,7 @@
             <section id="order-attach" class="tool-content max-w-2xl bg-white p-6 rounded-xl shadow-xs border border-gray-200 hidden">
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="order-style-select">머릿말 스타일</label>
-                    <select id="order-style-select" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
+                    <select id="order-style-select" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC] bg-white cursor-pointer">
                         <option value="num-paren">1) 2) 3) ... (기본)</option>
                         <option value="paren-num">(1) (2) (3) ...</option>
                         <option value="bracket-num">[1] [2] [3] ...</option>
@@ -264,8 +272,8 @@
                     </select>
                 </div>
 
-                <textarea id="order-input-area" rows="6" placeholder="순서를 붙일 텍스트를 줄바꿈으로 입력하세요.&#10;예:&#10;떡볶이&#10;돈가스" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mb-4 resize-vertical"></textarea>
-                <button onclick="createOrderButtons()" class="w-full px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition mb-4">순서 붙이기</button>
+                <textarea id="order-input-area" rows="6" placeholder="순서를 붙일 텍스트를 줄바꿈으로 입력하세요.&#10;예:&#10;떡볶이&#10;돈가스" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC] mb-4 resize-vertical"></textarea>
+                <button onclick="createOrderButtons()" class="w-full px-5 py-2 btn-primary text-white font-medium rounded-lg transition mb-4">순서 붙이기</button>
 
                 <div id="order-copy-status" class="mt-2 mb-4 p-3 rounded-lg text-sm text-center min-h-[40px] transition-all flex items-center justify-center">정보를 입력하고 버튼을 눌러주세요.</div>
 
@@ -278,13 +286,13 @@
             <section id="traffic-report" class="tool-content max-w-2xl bg-white p-6 rounded-xl shadow-xs border border-gray-200 hidden">
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="txtNumber">위반 대상 차량 번호</label>
-                    <input type="text" id="txtNumber" placeholder="예: 12가3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="txtNumber" placeholder="예: 12가3456" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC]">
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="txtDate">위반 일시</label>
                     <div class="flex gap-2 flex-wrap">
-                        <input type="datetime-local" id="txtDate" class="flex-1 min-w-[180px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <input type="datetime-local" id="txtDate" class="flex-1 min-w-[180px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC]">
                         <div class="flex gap-1">
                             <button type="button" class="px-3 py-2 bg-gray-500 text-white text-sm rounded-lg hover:bg-gray-600" onclick="adjustDate(-1)">-1일</button>
                             <button type="button" class="px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700" onclick="setToday()">오늘</button>
@@ -295,8 +303,8 @@
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="txtPlace">위반 장소</label>
-                    <input type="text" id="txtPlace" placeholder="위반 장소를 입력하세요" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mb-2">
-                    <select id="selQuickPlace" onchange="setQuickPlace(this.value)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer">
+                    <input type="text" id="txtPlace" placeholder="위반 장소를 입력하세요" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC] mb-2">
+                    <select id="selQuickPlace" onchange="setQuickPlace(this.value)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC] bg-white cursor-pointer">
                         <option value="">-- 자주 위반하는 장소 선택 --</option>
                         <option value="대구광역시 수성구 범물동 1235-9">오늘 이닭 앞 사거리</option>
                     </select>
@@ -304,12 +312,12 @@
 
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-600 mb-1" for="txtContent">위반 내용</label>
-                    <textarea id="txtContent" placeholder="예: 신호위반, 중앙선 침범 등" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 h-24 resize-vertical"></textarea>
+                    <textarea id="txtContent" placeholder="예: 신호위반, 중앙선 침범 등" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC] h-24 resize-vertical"></textarea>
                 </div>
 
                 <div class="flex gap-3">
-                    <button class="flex-1 px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition" onclick="copyTitle()">제목 복사</button>
-                    <button class="flex-1 px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition" onclick="copyContent()">내용 복사</button>
+                    <button class="flex-1 px-5 py-2 btn-primary text-white font-medium rounded-lg transition" onclick="copyTitle()">제목 복사</button>
+                    <button class="flex-1 px-5 py-2 btn-primary text-white font-medium rounded-lg transition" onclick="copyContent()">내용 복사</button>
                 </div>
 
                 <div id="traffic-message" class="mt-4 p-3 rounded-lg text-sm text-center min-h-[40px] transition-all flex items-center justify-center">정보를 입력하고 버튼을 눌러주세요.</div>
@@ -331,13 +339,13 @@
                             <label class="cursor-pointer flex items-center gap-1.5"><input type="radio" name="lang" value="ja" onchange="toggleLyricsMode()"> 일본어</label>
                         </div>
                     </div>
-                    <button class="w-full px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition text-sm cursor-pointer" id="copyBtn" onclick="copyLyricsResult()">결과 복사</button>
+                    <button class="w-full px-5 py-2 btn-primary text-white font-medium rounded-lg transition text-sm cursor-pointer" id="copyBtn" onclick="copyLyricsResult()">결과 복사</button>
                 </div>
 
                 <div id="lyrics-container" class="grid gap-4 flex-1 pb-2 mode-ko" style="min-height: 400px;">
-                    <textarea id="json-input" placeholder="여기에 JSON 데이터를 붙여넣으세요..." class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none"></textarea>
-                    <textarea id="extra-input" placeholder="" class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none hidden"></textarea>
-                    <textarea id="trans-input" placeholder="" class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-blue-500 bg-white resize-none outline-none hidden"></textarea>
+                    <textarea id="json-input" placeholder="여기에 JSON 데이터를 붙여넣으세요..." class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-[#155DFC] bg-white resize-none outline-none"></textarea>
+                    <textarea id="extra-input" placeholder="" class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-[#155DFC] bg-white resize-none outline-none hidden"></textarea>
+                    <textarea id="trans-input" placeholder="" class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl focus:border-[#155DFC] bg-white resize-none outline-none hidden"></textarea>
                     <textarea id="json-output" placeholder="변환된 결과가 여기에 표시됩니다..." class="w-full h-full p-4 font-mono text-sm border-2 border-gray-300 rounded-xl bg-gray-100 resize-none outline-none" readonly></textarea>
                 </div>
             </section>
@@ -472,7 +480,7 @@
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.className = "tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition text-slate-300 hover:bg-slate-800 hover:text-white";
             });
-            document.getElementById('btn-' + toolId).className = "tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition bg-blue-600 text-white font-medium";
+            document.getElementById('btn-' + toolId).className = "tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition btn-primary text-white font-medium";
 
             // 모바일 환경에서 메뉴를 클릭하면 자동으로 사이드바 닫기
             if (window.innerWidth < 768) {
@@ -805,7 +813,7 @@
                 copyBtn.style.backgroundColor = "#27ae60";
                 setTimeout(() => {
                     copyBtn.textContent = "결과 복사";
-                    copyBtn.style.backgroundColor = "#2563eb";
+                    copyBtn.style.backgroundColor = "#155DFC";
                 }, 1500);
             } catch (err) { alert("복사 실패"); }
         }
