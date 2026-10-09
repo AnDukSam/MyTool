@@ -26,6 +26,25 @@
             background-color: #1248cc !important;
         }
 
+        /* 로또 공 스타일 */
+        .lotto-ball {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            box-shadow: inset -2px -2px 6px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .ball-1 { background: linear-gradient(135deg, #fbc531, #e1b12c); } /* 1~10 노란색 */
+        .ball-11 { background: linear-gradient(135deg, #00a8ff, #0097e6); } /* 11~20 파란색 */
+        .ball-21 { background: linear-gradient(135deg, #e84118, #c23616); } /* 21~30 빨간색 */
+        .ball-31 { background: linear-gradient(135deg, #718093, #4b4b4b); } /* 31~40 회색 */
+        .ball-41 { background: linear-gradient(135deg, #4cd137, #44bd32); } /* 41~45 초록색 */
+
         /* 계산기 전용 스타일 병합 (중앙 정렬 마진 제거 및 좌측 정렬) */
         .calc-wrapper {
             background-color: #ffffff;
@@ -205,6 +224,10 @@
             <button onclick="switchTab('calculator-tool')" id="btn-calculator-tool" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition text-slate-300 hover:bg-slate-800 hover:text-white">
                 <i class="fa-solid fa-calculator w-5"></i>
                 <span>각종 계산기</span>
+            </button>
+            <button onclick="switchTab('lotto-generator')" id="btn-lotto-generator" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                <i class="fa-solid fa-circle-dot w-5"></i>
+                <span>로또 번호 추출</span>
             </button>
         </nav>
     </aside>
@@ -426,6 +449,29 @@
                         <button class="w-full px-5 py-2.5 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition" onclick="resetProductCost()">초기화</button>
                     </div>
                 </div>
+            </section>
+
+            <!-- 7. 로또 번호 추출 툴 -->
+            <section id="lotto-generator" class="tool-content max-w-2xl bg-white p-6 rounded-xl shadow-xs border border-gray-200 hidden">
+                <div class="mb-6 flex gap-4 items-center">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium text-gray-600 mb-1">추출 게임 수</label>
+                        <select id="lotto-count" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#155DFC] bg-white">
+                            <option value="1">1게임</option>
+                            <option value="3">3게임</option>
+                            <option value="5" selected>5게임</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="generateLottoNumbers()" class="w-full px-5 py-2 btn-primary text-white font-medium rounded-lg transition mb-6">로또 번호 추출하기</button>
+
+                <div id="lotto-result-container" class="space-y-3 mb-6">
+                    <div class="text-gray-400 text-center py-8 border border-dashed border-gray-200 rounded-lg">버튼을 눌러 행운의 번호를 추출해보세요!</div>
+                </div>
+
+                <div id="lotto-message" class="mt-4 p-3 rounded-lg text-sm text-center min-h-[40px] transition-all flex items-center justify-center">추출 버튼을 눌러주세요.</div>
+
+                <button onclick="copyLottoResult()" class="mt-3 w-full px-5 py-2 bg-slate-800 text-white font-medium text-sm rounded-lg hover:bg-slate-900 transition">결과 복사하기</button>
             </section>
 
         </div>
@@ -709,6 +755,72 @@
             const ampm = h < 12 ? "오전" : "오후";
             const h12 = h % 12 === 0 ? 12 : h % 12;
             return `${y}년 ${m}월 ${day}일 ${ampm} ${h12}시 ${min}분`;
+        }
+
+        // [로또 번호 추출] 로직
+        const lottoMsgEl = document.getElementById("lotto-message");
+
+        function showLottoMessage(msg, isSuccess = false) {
+            lottoMsgEl.innerHTML = msg;
+            lottoMsgEl.className = `mt-4 p-3 rounded-lg text-sm text-center min-h-[40px] transition-all flex items-center justify-center ${isSuccess ? 'msg-success' : 'msg-error'}`;
+        }
+
+        function getBallClass(num) {
+            if (num <= 10) return 'ball-1';
+            if (num <= 20) return 'ball-11';
+            if (num <= 30) return 'ball-21';
+            if (num <= 40) return 'ball-31';
+            return 'ball-41';
+        }
+
+        function generateLottoNumbers() {
+            const count = parseInt(document.getElementById('lotto-count').value);
+            const container = document.getElementById('lotto-result-container');
+            container.innerHTML = '';
+
+            let allGamesText = [];
+
+            for (let i = 0; i < count; i++) {
+                let numbers = [];
+                while (numbers.length < 6) {
+                    let rand = Math.floor(Math.random() * 45) + 1;
+                    if (!numbers.includes(rand)) {
+                        numbers.push(rand);
+                    }
+                }
+                numbers.sort((a, b) => a - b);
+                allGamesText.push(numbers.join(', '));
+
+                // UI 렌더링용 row
+                const row = document.createElement('div');
+                row.className = "flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg justify-center";
+
+                numbers.forEach(num => {
+                    const ball = document.createElement('div');
+                    ball.className = `lotto-ball ${getBallClass(num)}`;
+                    ball.innerText = num < 10 ? '0' + num : num;
+                    row.appendChild(ball);
+                });
+
+                container.appendChild(row);
+            }
+
+            container.setAttribute('data-lotto-text', allGamesText.join('\n'));
+            showLottoMessage("로또 번호가 성공적으로 추출되었습니다.", true);
+        }
+
+        function copyLottoResult() {
+            const container = document.getElementById('lotto-result-container');
+            const text = container.getAttribute('data-lotto-text');
+
+            if (!text) {
+                showLottoMessage("먼저 로또 번호를 추출해주세요.");
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                showLottoMessage("로또 번호가 클립보드에 복사되었습니다.", true);
+            });
         }
 
         // [JSON 가사 변환] 로직
